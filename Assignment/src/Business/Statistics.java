@@ -39,13 +39,13 @@ public class Statistics {
 
 	private void configBuilderInitialization() {
 		configBuilder = new ConfigurationBuilder();
-		configBuilder.setOAuthConsumerKey("ze8YFhq2UXoGneqNZaBy8YCsy");
+		configBuilder.setOAuthConsumerKey("kzIAfvYaZH8ItEoYnHPjgGx10");
 		configBuilder
-				.setOAuthConsumerSecret("mn1Y8gEw8Ea8VqaZRQSUmRV9njvsJgDeRC4x6vKVEpgMbLfODW");
+				.setOAuthConsumerSecret("4YdRd3aS65h8SlvFRHr4bbr7frZRhMVbUFtizSwiPjgSJkcTvO");
 		configBuilder
-				.setOAuthAccessToken("393965681-FiqaGR1XbRMu1CgTVMW50cbaaA5jf7Wh4NYLB9CB");
+				.setOAuthAccessToken("3180342006-rszIO9DvHVDUO4XfeY6wRR1MMqIWnTzWUXIpcvW");
 		configBuilder
-				.setOAuthAccessTokenSecret("oscpLNEV6NHneUGUIj8rWMU9Cp4pJg5zxHgokQ3u8mWF7");
+				.setOAuthAccessTokenSecret("hRyHiqBSy0XhW6fyg5ZyFBrTebdCFlKgHEdXMICAk9ND0");
 		configBuilder.setDebugEnabled(true);
 	}
 
