@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Interface.Tweets;
 
-@WebServlet("/StatisticServlet")
+@WebServlet("/Statistics")
 public class StatisticServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

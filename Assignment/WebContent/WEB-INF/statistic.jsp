@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>listing</title>
+<title>Statistics</title>
 </head>
 <body>
 	

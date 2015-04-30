@@ -174,8 +174,8 @@ public class Statistics {
 				"user_name", true);
 		BasicDBObject texts = new BasicDBObject("_id", false).append(
 				"tweet_text", true);
-		DBCursor nameCursor = dbColl.find(new BasicDBObject(), names);
-		DBCursor textCursor = dbColl.find(new BasicDBObject(), texts);
+		DBCursor nameCursor = dbColl.find(new BasicDBObject(), names).limit(100);
+		DBCursor textCursor = dbColl.find(new BasicDBObject(), texts).limit(100);
 
 		List<TweetInfo> tweets = fillTweetInfo(nameCursor, textCursor);
 		return tweets;
