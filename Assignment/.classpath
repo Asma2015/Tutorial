@@ -16,5 +16,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Mongo"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Twitter4j"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSTL"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSON"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -20,6 +20,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class Statistics {
 
 	private static ConfigurationBuilder configBuilder;
@@ -67,7 +71,7 @@ public class Statistics {
 		}
 	}
 
-	public List<TweetInfo> getTopTweets(boolean newDb) {
+	public List<TweetInfo> getTopTweets(boolean isNewDb) {
 
 		List<TweetInfo> tweetInfo = new ArrayList();
 
@@ -91,7 +95,7 @@ public class Statistics {
 				}
 			}
 
-			if (newDb) {
+			if (isNewDb) {
 				tweetInfo = fitchTweets();
 
 			}
@@ -116,82 +120,72 @@ public class Statistics {
 		}
 	}
 
-	public List<String> getTopRetweet() {
-
-		if (dbColl.count() <= 0) {
-			getTopTweets(false);
-		}
-		BasicDBObject names = new BasicDBObject();
-		names.put("retweet_count", -1);
-		DBCursor nameCursor = dbColl.find().sort(names).limit(5);
-
-		List<String> retweetInfo = new ArrayList();
-
-		while (nameCursor.hasNext()) {
-			retweetInfo.add((String) nameCursor.next().toString());
-		}
+	public List<TweetInfo> getTopRetweet() {
+		List<TweetInfo> retweetInfo = searchTweets("retweet_count");
 		return retweetInfo;
 	}
 
-	public List<String> getTopMentioned() {
-
-		if (dbColl.count() <= 0) {
-			getTopTweets(false);
-		}
-
-		BasicDBObject names = new BasicDBObject();
-		names.put("tweet_mentioned_count", -1);
-		DBCursor nameCursor = dbColl.find().sort(names).limit(5);
-
-		List<String> retweetInfo = new ArrayList();
-
-		while (nameCursor.hasNext()) {
-
-			retweetInfo.add((String) nameCursor.next().toString());
-		}
+	public List<TweetInfo> getTopMentioned() {
+		List<TweetInfo> retweetInfo = searchTweets("tweet_mentioned_count");
 		return retweetInfo;
 	}
 
-	public List<String> getTopFollowers() {
+	public List<TweetInfo> getTopFollowers() {
+		List<TweetInfo> retweetInfo = searchTweets("tweet_followers_count");
+		return retweetInfo;
+	}
 
+	public List<TweetInfo> searchTweets(String creteria) {
 		if (dbColl.count() <= 0) {
 			getTopTweets(false);
 		}
+		BasicDBObject dbObj = new BasicDBObject();
+		dbObj.put(creteria, -1);
+		DBCursor dbCursor = dbColl.find().sort(dbObj).limit(5);
 
-		BasicDBObject names = new BasicDBObject();
-		names.put("retweet_count", -1);
-		DBCursor nameCursor = dbColl.find().sort(names).limit(5);
-		List<String> retweetInfo = new ArrayList();
-		while (nameCursor.hasNext()) {
-
-			retweetInfo.add((String) nameCursor.next().toString());
-		}
+		List<TweetInfo> retweetInfo = fillTweetInfo(dbCursor);
 		return retweetInfo;
+
 	}
 
 	public List<TweetInfo> fitchTweets() {
-		BasicDBObject names = new BasicDBObject("_id", false).append(
-				"user_name", true);
-		BasicDBObject texts = new BasicDBObject("_id", false).append(
-				"tweet_text", true);
-		DBCursor nameCursor = dbColl.find(new BasicDBObject(), names).limit(100);
-		DBCursor textCursor = dbColl.find(new BasicDBObject(), texts).limit(100);
 
-		List<TweetInfo> tweets = fillTweetInfo(nameCursor, textCursor);
+		BasicDBObject tweetDbObj = new BasicDBObject("_id", false).append(
+				"user_name", true).append("tweet_text", true);
+		DBCursor tweetDbCursor = dbColl.find(new BasicDBObject(), tweetDbObj)
+				.limit(100);
+
+		List<TweetInfo> tweets = fillTweetInfo(tweetDbCursor);
 		return tweets;
 	}
 
-	private List<TweetInfo> fillTweetInfo(DBCursor nameCursor,
-			DBCursor textCursor) {
+	private List<TweetInfo> fillTweetInfo(DBCursor tweetDbCursor) {
 
 		List<TweetInfo> tweets = new ArrayList();
+		JSONParser parser = new JSONParser();
+		while (tweetDbCursor.hasNext()) {
 
-		while (nameCursor.hasNext() && textCursor.hasNext()) {
-			TweetInfo tweetInfo = new TweetInfo();
-			tweetInfo.setUserName((String) nameCursor.next().toString());
-			tweetInfo.setText((String) textCursor.next().toString());
+			try {
+				Object obj = parser.parse((String) tweetDbCursor.next()
+						.toString());
+				JSONObject jsonObj = (JSONObject) obj;
 
-			tweets.add(tweetInfo);
+				String name = (String) jsonObj.get("user_name");
+				String text = (String) jsonObj.get("tweet_text");
+
+				TweetInfo tweetInfo = new TweetInfo();
+				tweetInfo.setUserName(name);
+				tweetInfo.setText(text);
+
+				tweets.add(tweetInfo);
+			} catch (MongoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
 		}
 		return tweets;
 	}

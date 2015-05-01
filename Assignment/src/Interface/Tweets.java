@@ -23,7 +23,7 @@ public class Tweets {
 		return null;
 	}
 
-	public List<String> getTopRetweets() {
+	public List<TweetInfo> getTopRetweets() {
 
 		try {
 			Statistics tweetStatis = new Statistics();
@@ -35,7 +35,7 @@ public class Tweets {
 		return null;
 	}
 
-	public Object getTopFollowers() {
+	public List<TweetInfo> getTopFollowers() {
 		try {
 			Statistics tweetStatis = new Statistics();
 			return tweetStatis.getTopFollowers();
@@ -46,7 +46,7 @@ public class Tweets {
 		return null;
 	}
 
-	public Object getTopMentioned() {
+	public List<TweetInfo> getTopMentioned() {
 		try {
 			Statistics tweetStatis = new Statistics();
 			return tweetStatis.getTopMentioned();
