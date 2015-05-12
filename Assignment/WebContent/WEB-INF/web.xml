@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webapp>
+  <servlet>
+    <servlet-name>Statistics</servlet-name>
+    <servlet-class>Statistic.StatisticServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Statistics</servlet-name>
+    <url-pattern>/StatisticServlet</url-pattern>
+  </servlet-mapping>
+</webapp>
