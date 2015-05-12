@@ -58,7 +58,7 @@ public class Statistics {
 		try {
 			Mongo mongo;
 			mongo = new Mongo("127.0.0.1");
-			db = mongo.getDB("XceedTutDB");
+			db = mongo.getDB("ceedTutDB");
 			dbColl = db.getCollection("TopTweets");
 		} catch (UnknownHostException ex) {
 			System.out.println("Unknown Host Exception in connection: "
